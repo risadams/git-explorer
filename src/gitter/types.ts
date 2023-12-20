@@ -1,5 +1,4 @@
-
-export type GitType = 'tree' | 'commit' | 'blob';
+export type GitType = 'tree' | 'commit' | 'blob' | 'tag';
 
 export interface GitInfo {
   hash: string;
@@ -9,6 +8,7 @@ export interface GitInfo {
   parentNodes?: string[];
   refs?: string[];
   author?: NameAndDate;
+  tagger?: NameAndDate;
   committer?: NameAndDate;
   // blank for blobs just to save space
   catfile: string[] | undefined;
