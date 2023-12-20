@@ -1,4 +1,5 @@
-html, body {
+html,
+body {
   width: 100%;
   height: 100%;
   margin: 0;
@@ -12,7 +13,7 @@ html, body {
   height: 100%;
   align-content: stretch;
 }
-.viz_dev{
+.viz_dev {
   overflow-x: hidden;
   overflow-y: auto;
 }
@@ -38,7 +39,8 @@ html, body {
   flex-grow: 1;
   margin: 0;
 }
-.commit, .tag {
+.commit,
+.tag {
   cursor: pointer;
 }
 .type-commit {

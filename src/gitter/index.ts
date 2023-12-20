@@ -4,7 +4,6 @@ import { readGitFolder } from './read-git-folder';
 import { readRefLog } from './read-ref-log';
 import { GitInfo } from './types';
 
-
 // repoPath: path to the directory with git repo (not to the .git folder, to the parent dir)
 export async function getNodes(repoPath: string) {
   const commits = await readGitFolder(repoPath); // ls in the .git folder

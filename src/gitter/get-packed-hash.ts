@@ -2,8 +2,10 @@ import execify from './execify';
 import { GitInfo, GitType } from './types';
 
 // FRAGILE: similar to read-git-folder#unzipFile, TODO: centralize duplication
-export async function getPackedHash(repoPath: string, hash: string): Promise<GitInfo | undefined> {
-
+export async function getPackedHash(
+  repoPath: string,
+  hash: string
+): Promise<GitInfo | undefined> {
   let res: string | undefined;
   try {
     res = await execify(`git cat-file -t ${hash}`, repoPath);
@@ -16,7 +18,10 @@ export async function getPackedHash(repoPath: string, hash: string): Promise<Git
   if (!type) {
     return undefined;
   }
-  const length = parseInt(await execify(`git cat-file -s ${hash}`, repoPath), 10);
+  const length = parseInt(
+    await execify(`git cat-file -s ${hash}`, repoPath),
+    10
+  );
 
   let catContent: string[] | undefined;
   const content: string | undefined = undefined; // because we have no file
@@ -33,7 +38,7 @@ export async function getPackedHash(repoPath: string, hash: string): Promise<Git
     length,
     catfile: catContent,
     content: type === 'blob' ? undefined : content,
-    nestedNodes: []
+    nestedNodes: [],
   };
 
   return info;

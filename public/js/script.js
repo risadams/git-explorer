@@ -70,11 +70,11 @@
   });
   function copyNest(commit, depth) {
     commit.nested.forEach((n, i) => {
-      const timeSeq = commit.timeSeq + ((i+1)/(commit.nested.length+2)/Math.pow(10, depth));
+      const timeSeq = commit.timeSeq + ((i + 1) / (commit.nested.length + 2) / Math.pow(10, depth));
       if (typeof n.timeSeq === 'undefined' || timeSeq < n.timeSeq) {
         n.timeSeq = timeSeq;
       }
-      copyNest(n, depth+1);
+      copyNest(n, depth + 1);
     });
   }
 
@@ -98,7 +98,7 @@
   });
   const yHeights = {
     min: 0,
-    max: st.length-1
+    max: st.length - 1
   };
 
   // build branches
@@ -204,7 +204,7 @@
 
   // make details not grow too big
   const node = document.getElementById('node');
-  node.style.width = node.clientWidth+'px';
+  node.style.width = node.clientWidth + 'px';
 
   // the functions to move dots on each axis
   let yProp = null;
@@ -215,10 +215,10 @@
   const svg = d3.select('#viz');
 
   const simulation = d3.forceSimulation()
-    .alphaDecay(1 - (0.001**(1 / 600)))
+    .alphaDecay(1 - (0.001 ** (1 / 600)))
     .force('charge', d3.forceManyBody().distanceMax(20).strength(-15))
     .force('collide', d3.forceCollide().radius(5))
-    .force('center', d3.forceCenter( width / 2, height / 2));
+    .force('center', d3.forceCenter(width / 2, height / 2));
 
   init();
   function init() {
@@ -243,8 +243,8 @@
       const text = svg.append('text');
 
       text.attr('id', 't' + d.shortHash);
-      text.attr('x', function() { return d.x + 12; });
-      text.attr('y', function() { return d.y - 2; });
+      text.attr('x', function () { return d.x + 12; });
+      text.attr('y', function () { return d.y - 2; });
       text.attr('font', '12pt Arial');
       //text.attr('color', currentFill(d))
       text.attr('dominant-baseline', 'central');
@@ -270,7 +270,7 @@
     nodeHash.innerText = d.hash;
     // FRAGILE: ASSUME: if commits aren't in a blob we're also showing types
     if (x && y) {
-      nodeHash.className = 'type-'+d.type;
+      nodeHash.className = 'type-' + d.type;
     } else {
       nodeHash.className = '';
     }
@@ -289,15 +289,15 @@
     // what to do when creating new points:
     dots.enter()
       .append('circle')
-        .attr('class', 'commit')
-        .style('stroke', 'none')
-        //.style('stroke', 'steelblue')
-        //.style('stroke-width', 2)
-        .style('fill', currentFill)
-        .attr('r', radius)
-        .on('mouseover', handleMouseOver)
-        .on('mouseout', handleMouseOut)
-        .on('click', handleClick);
+      .attr('class', 'commit')
+      .style('stroke', 'none')
+      //.style('stroke', 'steelblue')
+      //.style('stroke-width', 2)
+      .style('fill', currentFill)
+      .attr('r', radius)
+      .on('mouseover', handleMouseOver)
+      .on('mouseout', handleMouseOut)
+      .on('click', handleClick);
     // what to do when removing points:
     dots.exit().remove();
 
@@ -320,7 +320,7 @@
       .attr('stroke', currentLineFill)
       .attr('d', linkVertical);
 
-     linesUp.transition()
+    linesUp.transition()
       .duration(3)
       .attr('d', linkVertical)
       .attr('stroke', currentLineFill);
@@ -341,7 +341,7 @@
       .attr('stroke-width', 2)
       .attr('stroke', currentLineFill)
       .attr('d', linkHorizontal);
-      //.attr('marker-end', 'url(#arrow)');
+    //.attr('marker-end', 'url(#arrow)');
 
     linesOver.transition()
       .duration(3)
@@ -383,7 +383,7 @@
       .force('center', null)
       .force('x', d3.forceX(width / 2).strength(positionStrength))
       .force('y', d3.forceY(height / 2).strength(positionStrength))
-      .force('center', d3.forceCenter( width / 2, height / 2))
+      .force('center', d3.forceCenter(width / 2, height / 2))
       .force('collide', d3.forceCollide().radius(radius))
       .alpha(1)
       .restart();
@@ -392,14 +392,14 @@
 
   });
 
-  document.getElementById('alphabetical').addEventListener('click', function() {
+  document.getElementById('alphabetical').addEventListener('click', function () {
 
     yProp = 'yHash';
     y = d3.scaleLinear()
       .domain([yHeights.min, yHeights.max])
-      .range([margin.top+(commits.length*commitDistance), margin.top+50]);
-      // TODO: what if we have more than a page's worth?
-      //.range([height - margin.bottom, margin.top+50]);
+      .range([margin.top + (commits.length * commitDistance), margin.top + 50]);
+    // TODO: what if we have more than a page's worth?
+    //.range([height - margin.bottom, margin.top+50]);
 
     x = d3.scaleLinear()
       .domain([xWidths.min, xWidths.max])
@@ -410,24 +410,24 @@
       .force('charge', null)
       .force('center', null)
       .force('y', d3.forceY(d => y(d[yProp])))
-      .force('x', d3.forceX(d => x(xWidths.max-1)))
+      .force('x', d3.forceX(d => x(xWidths.max - 1)))
       .alpha(2)
       .restart();
 
-    svg.attr('height', (commits.length*commitDistance)+100);
+    svg.attr('height', (commits.length * commitDistance) + 100);
 
     showLines = false;
     showTags = false; // TODO: animate or re-show tags after simulation finishes
   });
 
-  document.getElementById('parentChild').addEventListener('click', function() {
+  document.getElementById('parentChild').addEventListener('click', function () {
 
     yProp = 'yTime';
     y = d3.scaleLinear()
       .domain([yHeights.min, yHeights.max])
-      .range([margin.top+(commits.length*commitDistance), margin.top+50]);
-      // TODO: what if we have more than a page's worth?
-      //.range([height - margin.bottom, margin.top+50]);
+      .range([margin.top + (commits.length * commitDistance), margin.top + 50]);
+    // TODO: what if we have more than a page's worth?
+    //.range([height - margin.bottom, margin.top+50]);
 
     x = d3.scaleLinear()
       .domain([xWidths.min, xWidths.max])
@@ -441,12 +441,12 @@
       .alpha(2)
       .restart();
 
-    svg.attr('height', (commits.length*commitDistance)+100);
+    svg.attr('height', (commits.length * commitDistance) + 100);
 
     showTags = false; // TODO: animate or re-show tags after simulation finishes
   });
 
-  document.getElementById('color').addEventListener('click', function() {
+  document.getElementById('color').addEventListener('click', function () {
 
     const colorScale = d3.scaleOrdinal()
       .domain(nodeTypes)
@@ -457,18 +457,18 @@
 
     svg.selectAll('.commit').data(commits)
       .transition()
-        .duration(750)
-        .style('fill', currentFill);
+      .duration(750)
+      .style('fill', currentFill);
 
     if (showLines) {
       svg.selectAll('.arrowUp').data(arrowsUp)
         .transition()
-          .duration(750)
-          .style('stroke', currentLineFill);
+        .duration(750)
+        .style('stroke', currentLineFill);
       svg.selectAll('.arrowOver').data(arrowsOver)
         .transition()
-          .duration(750)
-          .style('stroke', currentLineFill);
+        .duration(750)
+        .style('stroke', currentLineFill);
     }
 
     // build legend: https://www.d3-graph-gallery.com/graph/custom_legend.html
@@ -478,25 +478,25 @@
       .data(nodeTypes)
       .enter()
       .append('rect') // TODO: circle
-        .attr('class', 'legend-dot')
-        .attr('x', 10)
-        .attr('y', function(d, i){ return 40 + i*(size+5)})
-        .attr('width', size)
-        .attr('height', size)
-        .style('fill', d => colorScale(d));
+      .attr('class', 'legend-dot')
+      .attr('x', 10)
+      .attr('y', function (d, i) { return 40 + i * (size + 5) })
+      .attr('width', size)
+      .attr('height', size)
+      .style('fill', d => colorScale(d));
 
     // Add one dot in the legend for each name.
     svg.selectAll('legend-label')
       .data(nodeTypes)
       .enter()
       .append('text')
-        .attr('class', 'legend-label')
-        .attr('x', 10 + size*1.2)
-        .attr('y', function(d, i){ return 40 + i*(size+5) + (size/2)})
-        .style('fill', d => colorScale(d))
-        .text(d => d)
-        .attr('text-anchor', 'left')
-        .style('alignment-baseline', 'middle');
+      .attr('class', 'legend-label')
+      .attr('x', 10 + size * 1.2)
+      .attr('y', function (d, i) { return 40 + i * (size + 5) + (size / 2) })
+      .style('fill', d => colorScale(d))
+      .text(d => d)
+      .attr('text-anchor', 'left')
+      .style('alignment-baseline', 'middle');
   });
 
   document.getElementById('uncolor').addEventListener('click', function () {
@@ -505,18 +505,18 @@
     currentLineFill = 'steelblue'
     svg.selectAll('.commit').data(commits)
       .transition()
-        .duration(750)
-        .style('fill', currentFill);
+      .duration(750)
+      .style('fill', currentFill);
 
     if (showLines) {
       svg.selectAll('.arrowUp').data(arrowsUp)
         .transition()
-          .duration(750)
-          .style('stroke', currentLineFill);
+        .duration(750)
+        .style('stroke', currentLineFill);
       svg.selectAll('.arrowOver').data(arrowsOver)
         .transition()
-          .duration(750)
-          .style('stroke', currentLineFill);
+        .duration(750)
+        .style('stroke', currentLineFill);
     }
 
     svg.selectAll('.legend-label').remove();
