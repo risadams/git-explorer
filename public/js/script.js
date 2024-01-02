@@ -3,7 +3,7 @@
 
   const { DateTime } = luxon;
 
-  const nodeTypes = ['commit', 'tree', 'blob'];
+  const nodeTypes = ['commit', 'tree', 'blob', 'tag'];
 
   // or axios or anything
   const commits = (await d3.json('/api/commits')).filter(c => c);
